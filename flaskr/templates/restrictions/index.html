@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Compras{% endblock %}</h1>
+    {% if g.user %}
+        <a class="action" href="{{ url_for('routes.create') }}">Novo</a>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% if g.user %}
+      {% for restriction in restrictions %}
+        <product class="restriction">
+          <header>
+            <div>
+              <h1>{{ restriction['name'] }}</h1>
+              <div class="about">
+                  Ingredientes:
+                  {% for ingredient in restriction['ingredients'] %}
+                    {{ ingredient['name'] }},
+                  {% endfor %}
+              </div>
+            </div>
+            <a class="action" href="{{ url_for('routes.update', id=restriction['id']) }}">Editar</a>
+          </header>
+        </product>
+        {% if not loop.last %}
+          <hr>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+{% endblock %}
